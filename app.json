@@ -1,0 +1,39 @@
+{
+  "name": "ꜱᴀɴᴋɪ ᴍᴜꜱɪᴄ ʙᴏᴛ",
+  "description": "ᴏᴘᴇɴ-ꜱᴏᴜʀᴄᴇ ʙᴏᴛ ᴛᴏ ᴘʟᴀʏ ꜱᴏɴɢꜱ ɪɴ ʏᴏᴜʀ ᴛᴇʟᴇɢʀᴀᴍ'ꜱ ɢʀᴏᴜᴘ ᴠᴏɪᴄᴇ ᴄʜᴀᴛ. ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴘʏᴛɢᴄᴀʟʟꜱ.",
+  "keywords": ["music", "voicechat", "telegram"],
+  "repository": "https://github.com/HEXOROP/MusicSanki",
+  "stack": "container",
+  "env": {
+    "SESSION_NAME": {
+      "description": "ᴘʏʀᴏɢʀᴀᴍ ꜱᴇꜱꜱɪᴏɴ ꜱᴛʀɪɴɢ",
+      "required": true
+    },
+    "BOT_TOKEN": {
+      "description": "ᴀ ʙᴏᴛ ᴛᴏᴋᴇɴ ꜰʀᴏᴍ @BotFather",
+      "required": true
+    },
+    "BOT_NAME": {
+      "description": "ʏᴏᴜʀ ᴍᴜꜱɪᴄ ᴘʟᴀʏᴇʀ ʙᴏᴛ ɴᴀᴍᴇ.",
+      "required": false,
+      "value": "нᴇxοя мυѕιϲ ρʟαγєя⚡"
+    },
+    "API_ID": {
+      "description": "ᴀᴘᴘ ɪᴅ",
+      "required": true
+    },
+    "API_HASH": {
+      "description": "ᴀᴘɪ ʜᴀꜱʜ",
+      "required": true
+    },
+    "SUDO_USERS": {
+      "description": "ʟɪꜱᴛ ᴏꜰ ᴜꜱᴇʀ ɪᴅꜱ ᴄᴏᴜɴᴛᴇᴅ ᴀꜱ ᴀᴅᴍɪɴ ᴇᴠᴇʀʏᴡʜᴇʀᴇ (separated by space).",
+      "required": true
+    },
+    "DURATION_LIMIT": {
+      "description": "ᴍᴀx ᴀᴜᴅɪᴏ ᴅᴜʀᴀᴛɪᴏɴ ʟɪᴍɪᴛ ꜰᴏʀ ᴅᴏᴡɴʟᴏᴀᴅꜱ (minutes).",
+      "required": true,
+      "value": "10"
+    }
+  }
+}
