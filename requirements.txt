@@ -1,6 +1,6 @@
 pyrogram
 TgCrypto
-git+https://github.com/pytgcalls/pytgcalls
+py-tgcalls==0.5.2
 python-dotenv
 youtube_dl
 youtube_search_python
@@ -12,7 +12,3 @@ youtube_search
 search_engine_parser
 ffmpeg
 Pillow
-python-arq
-future
-psutil
-wget
