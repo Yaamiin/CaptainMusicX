@@ -7,7 +7,7 @@ from callsmusic import callsmusic, queues
 from os import path
 import requests
 import aiohttp
-import youtube_dl
+
 from youtube_search import YoutubeSearch
 
 
