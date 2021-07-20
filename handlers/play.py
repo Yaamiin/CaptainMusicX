@@ -1,11 +1,9 @@
 from os import path
 
 from pyrogram import Client, filters
-from pyrogram.types import Message, Voice, InlineKeyboardButton, InlineKeyboardMarkup
-from pyrogram.errors import UserAlreadyParticipant
+from pyrogram.types import Message, Voice
 
 from callsmusic import callsmusic, queues
-from callsmusic.callsmusic import client as USER
 from os import path
 import requests
 import aiohttp
@@ -17,7 +15,6 @@ import converter
 from downloaders import youtube
 
 from config import BOT_NAME as bn, DURATION_LIMIT
-from helpers.admins import get_administrators
 from helpers.filters import command, other_filters
 from helpers.decorators import errors
 from helpers.errors import DurationLimitError
@@ -101,47 +98,22 @@ async def generate_cover(requested_by, title, views, duration, thumbnail):
 async def play(_, message: Message):
 
     lel = await message.reply("🔄 **ᴘʀᴏᴄᴇꜱꜱɪɴɢ** ꜱᴏᴜɴᴅꜱ...")
-    administrators = await get_administrators(message.chat)
-    chid = message.chat.id
+    sender_id = message.from_user.id
+    sender_name = message.from_user.first_name
 
-    try:
-        user = await USER.get_me()
-    except:
-        user.first_name = "Mizuki"
-    usar = user
-    wew = usar.id
-    try:
-        await _.get_chat_member(chid, wew)
-    except:
-        for administrator in administrators:
-            if administrator == message.from_user.id:
-                try:
-                    invitelink = await _.export_chat_invite_link(chid)
-                except:
-                    await lel.edit(
-                        "<b>ꜰɪʀꜱᴛ ᴍᴀᴋᴇ ᴍᴇ ᴀᴅᴍɪɴ ꜱɪʀ ᴊɪ🐾</b>")
-                    return
+    keyboard = InlineKeyboardMarkup(
+            [
+                [
+                    InlineKeyboardButton(
+                        text="Channel",
+                        url="https://t.me/SankiiPublic")
+                   
+                ]
+            ]
+        )
 
-                try:
-                    await USER.join_chat(invitelink)
-                    await USER.send_message(
-                        message.chat.id, "**ꜱᴍᴏᴋᴇʀ ᴍᴜꜱɪᴄ ᴀꜱꜱɪꜱᴛᴀɴᴄᴇ ᴊᴏɪɴ ꜰᴏʀ ᴘʟᴀʏ ʙᴇꜱᴛ Qᴜᴇʟɪᴛʏ ᴍᴜꜱɪᴄ🎶**")
-
-                except UserAlreadyParticipant:
-                    pass
-                except Exception:
-                    await lel.edit(
-                        f"<b>🎻 ꜰʟᴏᴏᴅ ᴡᴀɪᴛ ᴇʀʀᴏʀ 🎻</b> \n\ʜᴇʏ {user.first_name}, ᴀꜱꜱɪꜱᴛᴀɴᴛ ᴜꜱᴇʀʙᴏᴛ ᴄᴏᴜʟᴅɴ'ᴛ ᴊᴏɪɴ ʏᴏᴜʀ ɢʀᴏᴜᴘ ᴅᴜᴇ ᴛᴏ ʜᴇᴀᴠʏ ᴊᴏɪɴ ʀᴇQᴜᴇꜱᴛꜱ. ᴍᴀᴋᴇ ꜱᴜʀᴇ ᴜꜱᴇʀʙᴏᴛ ɪꜱ ɴᴏᴛ ʙᴀɴɴᴇᴅ ɪɴ ɢʀᴏᴜᴘ ᴀɴᴅ ᴛʀʏ ᴀɢᴀɪɴ ʟᴀᴛᴇʀ!")
-    try:
-        await USER.get_chat(chid)
-    except:
-        await lel.edit(
-            f"<i>ʜᴇʏ {user.first_name}, ᴀꜱꜱɪꜱᴛᴀɴᴛ ᴜꜱᴇʀʙᴏᴛ ɪꜱ ɴᴏᴛ ɪɴ ᴛʜɪꜱ ᴄʜᴀᴛ, ᴀꜱᴋ ᴀᴅᴍɪɴ ᴛᴏ ꜱᴇɴᴅ /play ᴄᴏᴍᴍᴀɴᴅ ꜰᴏʀ ꜰɪʀꜱᴛ ᴛɪᴍᴇ ᴛᴏ ᴀᴅᴅ ɪᴛ.</i>")
-        return
-    
     audio = (message.reply_to_message.audio or message.reply_to_message.voice) if message.reply_to_message else None
     url = get_url(message)
-
 
     if audio:
         if round(audio.duration / 60) > DURATION_LIMIT:
@@ -159,8 +131,8 @@ async def play(_, message: Message):
                 [
                     [
                         InlineKeyboardButton(
-                            text="ᴄʜᴀɴɴᴇʟ",
-                            url=f"https://t.me/SankiBrand")
+                            text="Channel",
+                            url=f"https://t.me/SankiiPublic")
 
                     ]
                 ]
@@ -188,8 +160,8 @@ async def play(_, message: Message):
                     [
                         [
                             InlineKeyboardButton(
-                                text="ᴊᴏɪɴ ɢʀᴏᴜᴘ",
-                                url=f"https://t.me/SankiBrand")
+                                text="Watch On YouTube",
+                                url=f"{url}")
 
                         ]
                     ]
@@ -203,8 +175,8 @@ async def play(_, message: Message):
                     [
                         [
                             InlineKeyboardButton(
-                                text="ᴊᴏɪɴ ɢʀᴏᴜᴘ",
-                                url=f"https://t.me/SankiBrand")
+                                text="ᴡᴀᴛᴄʜ ᴏɴ ʏᴏᴜᴛᴜʙᴇ",
+                                url=f"https://youtube.com")
 
                         ]
                     ]
@@ -241,7 +213,7 @@ async def play(_, message: Message):
 
         except Exception as e:
             lel.edit(
-                "❌ ꜱᴏɴɢ ɴᴏᴛ ꜰᴏᴜɴᴅ.\n\nᴛʀʏ ᴀɴᴏᴛʜᴇʀ ꜱᴏɴɢ ᴏʀ ᴍᴀʏʙᴇ ꜱᴘᴇʟʟ ɪᴛ ᴘʀᴏᴘᴇʀʟʏ."
+                "❌ ꜱᴏɴɢ ɴᴏᴛ ꜰᴏᴜɴᴅ.\n\nᴛʀʏ ᴀɴᴏᴛʜᴇʀ ꜱᴏɴɢ ᴏʀ ᴍᴀʏʙᴇ ꜱᴘᴇʟʟ ɪᴛ ᴘʀᴏᴘᴇʀʟʏ.\nᴏᴡɴᴇʀ @Its_Hexor"
             )
             print(str(e))
             return
