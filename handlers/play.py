@@ -1,33 +1,25 @@
+import os
 from os import path
-
 from pyrogram import Client, filters
-from pyrogram.types import Message, Voice
-
+from pyrogram.types import Message, Voice, InlineKeyboardButton, InlineKeyboardMarkup
+from pyrogram.errors import UserAlreadyParticipant
 from callsmusic import callsmusic, queues
-from os import path
+from callsmusic.callsmusic import client as USER
+from helpers.admins import get_administrators
 import requests
 import aiohttp
 import youtube_dl
 from youtube_search import YoutubeSearch
-
-
 import converter
 from downloaders import youtube
-
-from config import BOT_NAME as bn, DURATION_LIMIT
-from helpers.filters import command, other_filters
+from config import DURATION_LIMIT
+from helpers.filters import command
 from helpers.decorators import errors
 from helpers.errors import DurationLimitError
 from helpers.gets import get_url, get_file_name
-from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
-
-import os
-import aiohttp
 import aiofiles
 import ffmpeg
-from PIL import Image
-from PIL import ImageFont
-from PIL import ImageDraw
+from PIL import Image, ImageFont, ImageDraw
 
 
 def transcode(filename):
@@ -93,62 +85,92 @@ async def generate_cover(requested_by, title, views, duration, thumbnail):
 
 
 
-@Client.on_message(command("play") & other_filters)
-@errors
+@Client.on_message(command("play") 
+                   & filters.group
+                   & ~filters.edited 
+                   & ~filters.forwarded
+                   & ~filters.via_bot)
 async def play(_, message: Message):
 
-    lel = await message.reply("🔄 **ᴘʀᴏᴄᴇꜱꜱɪɴɢ** ꜱᴏᴜɴᴅꜱ...")
-    sender_id = message.from_user.id
-    sender_name = message.from_user.first_name
+    lel = await message.reply("🔄 **ᴘʀᴏᴄᴇꜱꜱɪɴɢ...**")
+    
+    administrators = await get_administrators(message.chat)
+    chid = message.chat.id
 
-    keyboard = InlineKeyboardMarkup(
-            [
-                [
-                    InlineKeyboardButton(
-                        text="Channel",
-                        url="https://t.me/SankiiPublic")
-                   
-                ]
-            ]
-        )
+    try:
+        user = await USER.get_me()
+    except:
+        user.first_name = "EsportPlayer"
+    usar = user
+    wew = usar.id
+    try:
+        await _.get_chat_member(chid, wew)
+    except:
+        for administrator in administrators:
+            if administrator == message.from_user.id:
+                try:
+                    invitelink = await _.export_chat_invite_link(chid)
+                except:
+                    await lel.edit(
+                        "<b>ᴀᴅᴅ ᴍᴇ ᴀꜱ ᴀᴅᴍɪɴ ᴏꜰ ʏᴏʀ ɢʀᴏᴜᴘ ꜰɪʀꜱᴛ! ❰ʜᴇxᴏʀ✘ꜱᴍᴏᴋᴇʀ❱</b>")
+                    return
 
+                try:
+                    await USER.join_chat(invitelink)
+                    await USER.send_message(
+                        message.chat.id, "**ᴍᴜꜱɪᴄ ᴀꜱꜱɪꜱᴛᴀɴᴛ ᴊᴏɪɴᴇᴅ ᴛʜɪꜱ ɢʀᴏᴜᴘ ꜰᴏʀ ᴘʟᴀʏ ᴍᴜꜱɪᴄ 🎵**")
+
+                except UserAlreadyParticipant:
+                    pass
+                except Exception:
+                    await lel.edit(
+                        f"<b>❰ ꜰʟᴏᴏᴅ ᴡᴀɪᴛ ᴇʀʀᴏʀ❱</b>\nʜᴇʏ ᴀꜱꜱɪꜱᴛᴀɴᴛ ᴜꜱᴇʀʙᴏᴛ ᴄᴏᴜʟᴅɴ'ᴛ ᴊᴏɪɴ ʏᴏᴜʀ ɢʀᴏᴜᴘ ᴅᴜᴇ ᴛᴏ ʜᴇᴀᴠʏ ᴊᴏɪɴ ʀᴇQᴜᴇꜱᴛꜱ. ᴍᴀᴋᴇ ꜱᴜʀᴇ ᴜꜱᴇʀʙᴏᴛ ɪꜱ ɴᴏᴛ ʙᴀɴɴᴇᴅ ɪɴ ɢʀᴏᴜᴘ ᴀɴᴅ ᴛʀʏ ᴀɢᴀɪɴ ʟᴀᴛᴇʀ!")
+    try:
+        await USER.get_chat(chid)
+    except:
+        await lel.edit(
+            f"<i>❰ʜᴇxᴏʀ✘ꜱᴍᴏᴋᴇʀ❱ ᴀꜱꜱɪꜱᴛᴀɴᴛ ᴜꜱᴇʀʙᴏᴛ ɪꜱ ɴᴏᴛ ɪɴ ᴛʜɪꜱ ᴄʜᴀᴛ, ᴀꜱᴋ ᴀᴅᴍɪɴ ᴛᴏ ꜱᴇɴᴅ /ᴘʟᴀʏ ᴄᴏᴍᴍᴀɴᴅ ꜰᴏʀ ꜰɪʀꜱᴛ ᴛɪᴍᴇ ᴛᴏ ᴀᴅᴅ ɪᴛ.</i>")
+        return
+    
     audio = (message.reply_to_message.audio or message.reply_to_message.voice) if message.reply_to_message else None
     url = get_url(message)
 
     if audio:
         if round(audio.duration / 60) > DURATION_LIMIT:
             raise DurationLimitError(
-                f"❌ ᴠɪᴅᴇᴏꜱ ʟᴏɴɢᴇʀ ᴛʜᴀɴ {DURATION_LIMIT} ᴍɪɴᴜᴛᴇ(s) ᴀʀᴇɴ'ᴛ ᴀʟʟᴏᴡᴇᴅ ᴛᴏ ᴘʟᴀʏ!"
+                f"❰ᴠɪᴅᴇᴏꜱ❱ ʟᴏɴɢᴇʀ ᴛʜᴀɴ  {DURATION_LIMIT} ᴍɪɴᴜᴛᴇꜱ ᴀʀᴇɴ'ᴛ ᴀʟʟᴏᴡᴇᴅ ᴛᴏ ᴘʟᴀʏ!"
             )
 
         file_name = get_file_name(audio)
         title = file_name
-        thumb_name = "https://telegra.ph/file/e347d024b97876a0e3dfe.png"
+        thumb_name = "https://telegra.ph/file/a67094fc4a99bca08114b.jpg"
         thumbnail = thumb_name
         duration = round(audio.duration / 60)
-        views = "ʟᴏᴄᴀʟʟʏ ᴀᴅᴅᴇᴅ"
-        keyboard = InlineKeyboardMarkup(
-                [
-                    [
-                        InlineKeyboardButton(
-                            text="Channel",
-                            url=f"https://t.me/SankiiPublic")
+        views = "Locally added"
 
-                    ]
+        keyboard = InlineKeyboardMarkup(
+            [
+                [
+                    InlineKeyboardButton(
+                        text="❰ᴄʜᴀɴɴᴇʟ❱",
+                        url="https://t.me/EsportCheater")
+                   
                 ]
-            )
+            ]
+        )
+        
         requested_by = message.from_user.first_name
         await generate_cover(requested_by, title, views, duration, thumbnail)  
         file_path = await converter.convert(
             (await message.reply_to_message.download(file_name))
             if not path.isfile(path.join("downloads", file_name)) else file_name
         )
+
     elif url:
         try:
             results = YoutubeSearch(url, max_results=1).to_dict()
-           # url = f"https://youtube.com{results[0]['url_suffix']}"
-            #print(results)
-            title = results[0]["title"][:40]       
+            # print results
+            title = results[0]["title"]       
             thumbnail = results[0]["thumbnails"][0]
             thumb_name = f'thumb{title}.jpg'
             thumb = requests.get(thumbnail, allow_redirects=True)
@@ -156,53 +178,58 @@ async def play(_, message: Message):
             duration = results[0]["duration"]
             url_suffix = results[0]["url_suffix"]
             views = results[0]["views"]
+            durl = url
+            durl = durl.replace("youtube", "youtubepp")
+            
+            secmul, dur, dur_arr = 1, 0, duration.split(':')
+            for i in range(len(dur_arr)-1, -1, -1):
+                dur += (int(dur_arr[i]) * secmul)
+                secmul *= 60
+                
             keyboard = InlineKeyboardMarkup(
+                [
                     [
-                        [
-                            InlineKeyboardButton(
-                                text="Watch On YouTube",
-                                url=f"{url}")
+                        InlineKeyboardButton(
+                            text="❰ᴊᴏɪɴ ɢʀᴏᴜᴘ❱",
+                            url="https://t.me/esportcheater"),
+                        
 
-                        ]
                     ]
-                )
+                ]
+            )
         except Exception as e:
             title = "NaN"
-            thumb_name = "https://telegra.ph/file/e347d024b97876a0e3dfe.png"
+            thumb_name = "https://telegra.ph/file/a67094fc4a99bca08114b.jpg"
             duration = "NaN"
             views = "NaN"
             keyboard = InlineKeyboardMarkup(
                     [
                         [
                             InlineKeyboardButton(
-                                text="ᴡᴀᴛᴄʜ ᴏɴ ʏᴏᴜᴛᴜʙᴇ",
-                                url=f"https://youtube.com")
+                            text="❰ᴊᴏɪɴ ɢʀᴏᴜᴘ❱",
+                            url="https://t.me/esportcheater"),
 
                         ]
                     ]
                 )
+        if (dur / 60) > DURATION_LIMIT:
+             await lel.edit(f"❰ᴠɪᴅᴇᴏꜱ❱ ʟᴏɴɢᴇʀ ᴛʜᴀɴ  {DURATION_LIMIT} ᴍɪɴᴜᴛᴇꜱ ᴀʀᴇɴ'ᴛ ᴀʟʟᴏᴡᴇᴅ ᴛᴏ ᴘʟᴀʏ!")
+             return
         requested_by = message.from_user.first_name
         await generate_cover(requested_by, title, views, duration, thumbnail)     
         file_path = await converter.convert(youtube.download(url))
     else:
-        await lel.edit("🔎 **ꜰɪɴᴅɪɴɢ** ᴛʜᴇ ꜱᴏɴɢ...")
-        sender_id = message.from_user.id
-        user_id = message.from_user.id
-        sender_name = message.from_user.first_name
-        user_name = message.from_user.first_name
-        rpk = "["+user_name+"](tg://user?id="+str(user_id)+")"
-
-        query = ''
-        for i in message.command[1:]:
-            query += ' ' + str(i)
-        print(query)
-        await lel.edit("🎵 **ᴘʀᴏᴄᴇꜱꜱɪɴɢ** ꜱᴏᴜɴᴅꜱ...")
-        ydl_opts = {"format": "bestaudio[ext=m4a]"}
+        if len(message.command) < 2:
+            return await lel.edit("✌**ᴡʜᴀᴛ'ꜱ ᴛʜᴇ ꜱᴏɴɢ ʏᴏᴜ ᴡᴀɴᴛ ᴛᴏ ᴘʟᴀʏ?**")
+        await lel.edit("🔎 **ꜰɪɴᴅɪɴɢ ᴛʜᴇ ꜱᴏɴɢ❰ʜᴇxᴏʀ✘ꜱᴍᴏᴋᴇʀ❱...**")
+        query = message.text.split(None, 1)[1]
+        # print(query)
+        await lel.edit("🎵 **ᴘʀᴏᴄᴇꜱꜱɪɴɢ ꜱᴏᴜɴᴅꜱ...**")
         try:
             results = YoutubeSearch(query, max_results=1).to_dict()
             url = f"https://youtube.com{results[0]['url_suffix']}"
-            #print(results)
-            title = results[0]["title"][:40]       
+            # print results
+            title = results[0]["title"]       
             thumbnail = results[0]["thumbnails"][0]
             thumb_name = f'thumb{title}.jpg'
             thumb = requests.get(thumbnail, allow_redirects=True)
@@ -210,10 +237,17 @@ async def play(_, message: Message):
             duration = results[0]["duration"]
             url_suffix = results[0]["url_suffix"]
             views = results[0]["views"]
+            durl = url
+            durl = durl.replace("youtube", "youtubepp")
 
+            secmul, dur, dur_arr = 1, 0, duration.split(':')
+            for i in range(len(dur_arr)-1, -1, -1):
+                dur += (int(dur_arr[i]) * secmul)
+                secmul *= 60
+                
         except Exception as e:
-            lel.edit(
-                "❌ ꜱᴏɴɢ ɴᴏᴛ ꜰᴏᴜɴᴅ.\n\nᴛʀʏ ᴀɴᴏᴛʜᴇʀ ꜱᴏɴɢ ᴏʀ ᴍᴀʏʙᴇ ꜱᴘᴇʟʟ ɪᴛ ᴘʀᴏᴘᴇʀʟʏ.\nᴏᴡɴᴇʀ @Its_Hexor"
+            await lel.edit(
+                "✊ꜱᴏɴɢ ɴᴏᴛ ꜰᴏᴜɴᴅ.\n\nᴛʀʏ ᴀɴᴏᴛʜᴇʀ ꜱᴏɴɢ ᴏʀ ᴍᴀʏʙᴇ ꜱᴘᴇʟʟ ɪᴛ ᴘʀᴏᴘᴇʀʟʏ."
             )
             print(str(e))
             return
@@ -221,13 +255,18 @@ async def play(_, message: Message):
         keyboard = InlineKeyboardMarkup(
                 [
                     [
+                      
                         InlineKeyboardButton(
-                            text="ᴡᴀᴛᴄʜ ᴏɴ ʏᴏᴜᴛᴜʙᴇ",
-                            url=f"{url}")
+                            text="❰ᴊᴏɪɴ ɢʀᴏᴜᴘ❱",
+                            url="https://t.me/esportcheater"),
 
                     ]
                 ]
             )
+        
+        if (dur / 60) > DURATION_LIMIT:
+             await lel.edit(f"❰ᴠɪᴅᴇᴏꜱ❱ ʟᴏɴɢᴇʀ ᴛʜᴀɴ  {DURATION_LIMIT} ᴍɪɴᴜᴛᴇꜱ ᴀʀᴇɴ'ᴛ ᴀʟʟᴏᴡᴇᴅ ᴛᴏ ᴘʟᴀʏ!")
+             return
         requested_by = message.from_user.first_name
         await generate_cover(requested_by, title, views, duration, thumbnail)  
         file_path = await converter.convert(youtube.download(url))
@@ -236,7 +275,9 @@ async def play(_, message: Message):
         position = await queues.put(message.chat.id, file=file_path)
         await message.reply_photo(
         photo="final.png", 
-        caption=f"#⃣ ʏᴏᴜʀ ʀᴇQᴜᴇꜱᴛᴇᴅ ꜱᴏɴɢ **queued** ᴀᴛ ᴘᴏꜱɪᴛɪᴏɴ {position}!",
+        caption="**❰ꜱᴍᴏᴋᴇʀ✘ʜᴇxᴏʀ❱ ꜱᴏɴɢ ᴘᴏꜱɪᴛɪᴏɴ:** {}".format(
+        position
+        ),
         reply_markup=keyboard)
         os.remove("final.png")
         return await lel.delete()
@@ -245,9 +286,8 @@ async def play(_, message: Message):
         await message.reply_photo(
         photo="final.png",
         reply_markup=keyboard,
-        caption="▶️ **Playing** ʜᴇʀᴇ ᴛʜᴇ ꜱᴏɴɢ ʀᴇQᴜᴇꜱᴛᴇᴅ ʙʏ {} ᴠɪᴀ ʏᴏᴜᴛᴜʙᴇ 🎵".format(
-        message.from_user.mention()
-        ),
-    )
+        caption="**❰ꜱᴍᴏᴋᴇʀ✘ʜᴇxᴏʀ❱ ɴᴏᴡ ᴘʟᴀʏɪɴɢ ᴀᴛ `{}`...**".format(
+        message.chat.title
+        ), )
         os.remove("final.png")
         return await lel.delete()

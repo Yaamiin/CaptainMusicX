@@ -7,28 +7,27 @@ from helpers.filters import other_filters2
 
 @Client.on_message(other_filters2)
 async def start(_, message: Message):
-        await message.reply_text(
-        f"""**ᴘʀᴏꜰꜱꜱɪᴏɴᴀʟ ᴅᴀᴛᴀʙᴀꜱᴇ ʜᴏꜱᴛɪɴɢ 
-
-ꜱᴍᴏᴋᴇʀ ᴍᴜꜱɪᴄ ʙᴏᴛ ʜᴏꜱᴛ ᴏɴ ᴘʀɪᴠᴀᴛᴇ ꜱᴇʀᴠᴇʀ. ᴜꜱɪɴɢ ʜɪɢʜ ᴄᴏɴꜰɪɢ ɴᴏ ʟᴀɢ ꜰᴜʟʟ ᴍᴀꜱᴛɪ🎶[🌹| ᴛᴇᴛᴏʀɪᴀʟ |🌹](https://youtu.be/zePiU0tGN-k).
-
-ᴛʜɪꜱ ʙᴏᴛ ʜᴏꜱᴛ ᴏɴ ꜰɪʀᴇʙᴀꜱᴇ ꜱᴇʀᴠᴇʀ!**
+    
+    await message.reply_text(
+        f"""**
+❰ꜱᴍᴏᴋᴇʀ✘ʜᴇxᴏʀ❱ ꜱᴜᴘᴇʀ ꜰᴀꜱᴛ ᴛᴇʟᴇɢʀᴀᴍ ᴠᴄ ᴍᴜꜱɪᴄ ᴘʟᴀʏᴇʀ ꜰᴇᴇʟ ʜɪɢʜ Qᴜᴇʟɪᴛʏ ᴍᴜꜱɪᴄ [ɢʀᴏᴜᴘ](https://t.me/EsportCheater).
+Aᴅᴅ Mᴇ Tᴏ Yᴏᴜʀ Gʀᴏᴜᴩ Aɴᴅ Pʟᴀʏ Mᴜsɪᴄ Fʀᴇᴇʟʏ!**
         """,
         reply_markup=InlineKeyboardMarkup(
             [
                 [
                     InlineKeyboardButton(
-                        "🌹ᴇꜱᴘᴏʀᴛ ᴄʟᴀɴ🌹", url="https://t.me/EsportCheater")
+                        "❰Oᴡɴᴇʀ❱", url="https://t.me/Its_Hexor")
                   ],[
                     InlineKeyboardButton(
-                        "⭐ ꜱᴀɴᴋɪ ᴘᴜʙʟɪᴄ", url="https://t.me/BrandSanki"
+                        "❰Sᴜᴩᴩᴏʀᴛ❱", url="https://t.me/EsportCheater"
                     ),
                     InlineKeyboardButton(
-                        "🔊 ᴏᴡɴᴇʀ", url="https://t.me/Sanki_Owner"
+                        "❰ɢʀᴏᴜᴘ❱", url="https://t.me/EsportCheater"
                     )
                 ],[ 
                     InlineKeyboardButton(
-                        "➕ ᴀᴅᴅ ᴛᴏ ʏᴏᴜʀ ɢʀᴏᴜᴘ ➕", url="https://t.me/EsportMusicRobot?startgroup=true"
+                        "❰ᴀᴅᴅ ᴍᴇ ɪɴ ᴜʀ ɢʀᴏᴜᴘ❱", url="https://t.me/EsportPlayerBot?startgroup=true"
                     )]
             ]
         ),
@@ -37,18 +36,13 @@ async def start(_, message: Message):
 
 @Client.on_message(filters.command("start") & ~filters.private & ~filters.channel)
 async def gstart(_, message: Message):
-      await message.reply_text("""**ɢʀᴏᴜᴘ ᴍᴜꜱɪᴄ ᴘʟᴀʏᴇʀ ᴏɴʟɪɴᴇ ✅**""",
+      await message.reply_text("""**Aᴍ Oɴʟɪɴᴇ ✅**""",
       reply_markup=InlineKeyboardMarkup(
             [
                 [
                     InlineKeyboardButton(
-                        "🌹 ᴏᴡɴᴇʀ", url="https://t.me/Its_Hexor")
+                        "🔊Uᴩᴅᴀᴛᴇs", url="https://t.me/EsportCheater")
                 ]
             ]
         )
    )
-
-
-
-
-
