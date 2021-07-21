@@ -1,37 +1,37 @@
 {
-  "name": "ꜱᴀɴᴋɪ ᴍᴜꜱɪᴄ ʙᴏᴛ",
-  "description": "ᴏᴘᴇɴ-ꜱᴏᴜʀᴄᴇ ʙᴏᴛ ᴛᴏ ᴘʟᴀʏ ꜱᴏɴɢꜱ ɪɴ ʏᴏᴜʀ ᴛᴇʟᴇɢʀᴀᴍ'ꜱ ɢʀᴏᴜᴘ ᴠᴏɪᴄᴇ ᴄʜᴀᴛ. ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴘʏᴛɢᴄᴀʟʟꜱ.",
+  "name": "Patricia",
+  "description": "Open-Source bot to play songs in your Telegram's Group Voice Chat. Powered by PyTgCalls.",
   "keywords": ["music", "voicechat", "telegram"],
-  "repository": "https://github.com/HEXOROP/MusicSanki",
+  "repository": "https://github.com/HEXOROP/EsportPlayer",
   "stack": "container",
   "env": {
     "SESSION_NAME": {
-      "description": "ᴘʏʀᴏɢʀᴀᴍ ꜱᴇꜱꜱɪᴏɴ ꜱᴛʀɪɴɢ",
+      "description": "Pyrogram session string",
       "required": true
     },
     "BOT_TOKEN": {
-      "description": "ᴀ ʙᴏᴛ ᴛᴏᴋᴇɴ ꜰʀᴏᴍ @BotFather",
+      "description": "A bot token from @BotFather",
       "required": true
     },
     "BOT_NAME": {
-      "description": "ʏᴏᴜʀ ᴍᴜꜱɪᴄ ᴘʟᴀʏᴇʀ ʙᴏᴛ ɴᴀᴍᴇ.",
+      "description": "Your MusicPlayer Bot Name.",
       "required": false,
-      "value": "нᴇxοя мυѕιϲ ρʟαγєя⚡"
+      "value": ""
     },
     "API_ID": {
-      "description": "ᴀᴘᴘ ɪᴅ",
+      "description": "App ID from my.telegram.org/apps",
       "required": true
     },
     "API_HASH": {
-      "description": "ᴀᴘɪ ʜᴀꜱʜ",
+      "description": "App hash from my.telegram.org/apps",
       "required": true
     },
     "SUDO_USERS": {
-      "description": "ʟɪꜱᴛ ᴏꜰ ᴜꜱᴇʀ ɪᴅꜱ ᴄᴏᴜɴᴛᴇᴅ ᴀꜱ ᴀᴅᴍɪɴ ᴇᴠᴇʀʏᴡʜᴇʀᴇ (separated by space).",
+      "description": "List of user IDs counted as admin everywhere (separated by space).",
       "required": true
     },
     "DURATION_LIMIT": {
-      "description": "ᴍᴀx ᴀᴜᴅɪᴏ ᴅᴜʀᴀᴛɪᴏɴ ʟɪᴍɪᴛ ꜰᴏʀ ᴅᴏᴡɴʟᴏᴀᴅꜱ (minutes).",
+      "description": "Max audio duration limit for downloads (minutes).",
       "required": true,
       "value": "10"
     }
