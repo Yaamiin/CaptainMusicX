@@ -8,7 +8,6 @@ from callsmusic.callsmusic import client as USER
 from helpers.admins import get_administrators
 import requests
 import aiohttp
-import youtube_dl
 from youtube_search import YoutubeSearch
 import converter
 from downloaders import youtube
@@ -92,7 +91,7 @@ async def generate_cover(requested_by, title, views, duration, thumbnail):
                    & ~filters.via_bot)
 async def play(_, message: Message):
 
-    lel = await message.reply("🔄 **ᴘʀᴏᴄᴇꜱꜱɪɴɢ...**")
+    lel = await message.reply("🔄 **ʟᴏᴀᴅ ʙᴇꜱᴛ Qᴜᴇʟɪᴛʏ ꜱᴏɴɢ...**")
     
     administrators = await get_administrators(message.chat)
     chid = message.chat.id
@@ -153,7 +152,7 @@ async def play(_, message: Message):
                 [
                     InlineKeyboardButton(
                         text="❰ᴄʜᴀɴɴᴇʟ❱",
-                        url="https://t.me/EsportCheater")
+                        url="https://t.me/SankiPublicEnjoy")
                    
                 ]
             ]
@@ -191,7 +190,7 @@ async def play(_, message: Message):
                     [
                         InlineKeyboardButton(
                             text="❰ᴊᴏɪɴ ɢʀᴏᴜᴘ❱",
-                            url="https://t.me/esportcheater"),
+                            url="https://t.me/SankiPublicEnjoy"),
                         
 
                     ]
@@ -207,7 +206,7 @@ async def play(_, message: Message):
                         [
                             InlineKeyboardButton(
                             text="❰ᴊᴏɪɴ ɢʀᴏᴜᴘ❱",
-                            url="https://t.me/esportcheater"),
+                            url="https://t.me/SankiPublicEnjoy"),
 
                         ]
                     ]
@@ -258,7 +257,7 @@ async def play(_, message: Message):
                       
                         InlineKeyboardButton(
                             text="❰ᴊᴏɪɴ ɢʀᴏᴜᴘ❱",
-                            url="https://t.me/esportcheater"),
+                            url="https://t.me/SankiPublicEnjoy"),
 
                     ]
                 ]

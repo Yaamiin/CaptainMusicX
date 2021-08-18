@@ -20,7 +20,7 @@ from youtube_dl.utils import (
 
 @Client.on_message(filters.command("song") & ~filters.edited)
 async def song(client, message):
-    cap = "@Its_Hexor"
+    cap = "ꜱᴏɴɢ ᴜᴘʟᴏᴀᴅ ʙʏ @Prayagraj_Op"
     url = message.text.split(None, 1)[1]
     rkp = await message.reply("ᴘʀᴏᴄᴇꜱꜱɪɴɢ...")
     if not url:
@@ -56,7 +56,7 @@ async def song(client, message):
         }
         song = True
     try:
-        await rkp.edit("Downloading...")
+        await rkp.edit("ᴅᴇᴠ ❪ʜᴇxᴏʀ❫...")
         with YoutubeDL(opts) as rip:
             rip_data = rip.extract_info(url)
     except DownloadError as DE:
