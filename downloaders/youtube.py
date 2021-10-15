@@ -1,12 +1,13 @@
 from os import path
 
-from youtube_dl import YoutubeDL
+from yt_dlp import YoutubeDL
 
 from config import BOT_NAME as bn, DURATION_LIMIT
 from helpers.errors import DurationLimitError
 
 ydl_opts = {
     "format": "bestaudio/best",
+    "verbose": True,
     "geo-bypass": True,
     "nocheckcertificate": True,
     "outtmpl": "downloads/%(id)s.%(ext)s",
