@@ -42,7 +42,7 @@
 
 - `/play <song name>` - play song you requested
 - `/song <song name>` - download songs you want quickly
-- `/hexor - Bot Online OR Offine
+- `/hexor` - Bot Online OR Offine
 
 #### Admins Only 👷‍♂️
 - `/pause` - pause song play
