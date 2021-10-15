@@ -65,7 +65,7 @@ curl -sL https://deb.nodesource.com/setup_16.x | bash -
 sudo apt-get install -y nodejs
 npm i -g npm
 git clone https://github.com/HEXOROP/eSportMusicX # Clone your repo.
-cd VeezMusic
+cd eSportMusicX
 pip3 install -U -r requirements.txt
 cp example.env .env #Use vim to edit ENVs
 vim .env #Fill up your ENVs ( Steps press i to enter in insert mode then edit the file. Press Esc to exit the editing mode then type :wq! and press Enter key to save the file.)
