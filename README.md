@@ -79,4 +79,4 @@ python3 main.py # Run the bot
 - [RojSerBest](https://github.com/rojserbest) CallsMusic Developer
 
 ### Support & Updates 🎑
-<a href="https://t.me/EsportClan"><img src="https://img.shields.io/badge/Join-Group%20Support-blue.svg?style=for-the-badge&logo=Telegram"></a> <a href="https://t.me/eSport_BOTs"><img src="https://img.shields.io/badge/Join-Updates%20Channel-blue.svg?style=for-the-badge&logo=Telegram"></a>
+<a href="https://t.me/Somalimusicbot"><img src="https://img.shields.io/badge/Join-Group%20Support-blue.svg?style=for-the-badge&logo=Telegram"></a> <a href="https://t.me/Somalibots_help"><img src="https://img.shields.io/badge/Join-Updates%20Channel-blue.svg?style=for-the-badge&logo=Telegram"></a>
