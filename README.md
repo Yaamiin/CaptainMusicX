@@ -1,4 +1,4 @@
-<p align="center"><a href="https://t.me/Captain_Bots"><img src="https://github.com/HEXOROP/eSportMusicX/raw/main/etc/Hexor.png"></a></p>
+<p align="center"><a href="https://t.me/Captain_Bots"><img src="https://https://telegra.ph/file/b0a0d274f1e0b8c86fd30.jpg"></a></p>
 <p align="center">
     <br><b>eSport MusicX is a telegram bot project that's allow you to play music on telegram voice chat group</b><br>
 </p>
